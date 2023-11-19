@@ -1,0 +1,24 @@
+<div class="max-w-sm rounded overflow-hidden shadow-lg">
+    <div class="px-10 card-container">
+        <div class="font-bold text-xl pt-8">Last {{ isTemperatureCard ? 'Temperature' : 'Humidity' }}</div>
+        <p class="text-gray-700 text-4xl pt-4">
+            {{ isTemperatureCard ? (resumedData?.lastTemperature | number : '1.2-2') : (resumedData?.lastHumidity | number : '1.2-2') }} {{ isTemperatureCard ? '°C' : '%' }}
+        </p>
+    </div>
+    <div class="px-10 pt-4 pb-8 card-container">
+        <div class="grid grid-cols-3 gap-10">
+            <div class="card-container">
+                <p class="font-bold">Min</p>
+                <p>{{ isTemperatureCard ? (resumedData?.minTemperature | number : '1.2-2') : (resumedData?.minHumidity | number : '1.2-2') }} {{ isTemperatureCard ? '°C' : '%' }}</p>
+            </div>
+            <div class="card-container">
+                <p class="font-bold">Max</p>
+                <p>{{ isTemperatureCard ? (resumedData?.maxTemperature | number : '1.2-2') : (resumedData?.maxHumidity | number : '1.2-2') }} {{ isTemperatureCard ? '°C' : '%' }}</p>
+            </div>
+            <div class="card-container">
+                <p class="font-bold">Avg</p>
+                <p>{{ isTemperatureCard ? (resumedData?.avgTemperature | number : '1.2-2') : (resumedData?.avgHumidity | number : '1.2-2') }} {{ isTemperatureCard ? '°C' : '%' }}</p>
+            </div>
+        </div>
+    </div>
+</div>

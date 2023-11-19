@@ -1,0 +1,70 @@
+<div class="grid grid-cols-1 pt-10 pb-5">
+    <div class="mx-auto">
+        <p class="text-5xl font-extrabold text-gray-900">Weather Station IoT</p>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 pt-10 pb-5" *ngIf="isLoading">
+    <div class="mx-auto">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+
+<ng-container *ngIf="!isLoading">
+    <div class="grid grid-cols-2 py-5">
+        <div class="mx-auto">
+            <app-weather-cards 
+                [resumedData]="resumedData"
+                [isTemperatureCard]="true"
+            ></app-weather-cards>
+        </div>
+        <div class="mx-auto">
+            <app-weather-cards 
+                [resumedData]="resumedData"
+                [isTemperatureCard]="false"
+            ></app-weather-cards>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-1 py-5">
+        <div class="mat-elevation-z8" *ngIf="results">
+            <table mat-table [dataSource]="dataSource">
+        
+                <!-- Position Column -->
+                <ng-container matColumnDef="Id">
+                    <th class="!text-center" mat-header-cell *matHeaderCellDef> Id </th>
+                    <td class="!text-center" mat-cell *matCellDef="let element"> {{element.sensorReadingId}} </td>
+                </ng-container>
+        
+                <!-- Name Column -->
+                <ng-container matColumnDef="Temperature">
+                    <th class="!text-center" mat-header-cell *matHeaderCellDef> Temperature </th>
+                    <td class="!text-center" mat-cell *matCellDef="let element"> {{element.temperature}} </td>
+                </ng-container>
+        
+                <!-- Weight Column -->
+                <ng-container matColumnDef="Humidity">
+                    <th class="!text-center" mat-header-cell *matHeaderCellDef> Humidity </th>
+                    <td class="!text-center" mat-cell *matCellDef="let element"> {{element.humidity}} </td>
+                </ng-container>
+        
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="Reading Date">
+                    <th class="!text-center" mat-header-cell *matHeaderCellDef> Reading Date </th>
+                    <td class="!text-center" mat-cell *matCellDef="let element"> {{element.readingDate | date:'MM/dd/y'}} </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        
+            <mat-paginator 
+                (page)="chengePage($event)"
+                [length]="recordCount"
+                [pageSize]="pageSize"
+                [pageSizeOptions]="[10, 20, 50]" 
+                showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+</ng-container>
