@@ -29,26 +29,35 @@ export class DashboardComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public isLoading!: boolean;
+  public isLoadingResume!: boolean;
 
   constructor(
     private weatherService: WeatherService
   ) {
     this.getTableInformation();
+    this.getResumeInformation();
   }
 
   private getTableInformation(): void {
     this.isLoading = true;
-    forkJoin({
-      sensorReading: this.weatherService.getWeatherInfo(this.currentPage, this.pageSize),
-      resumedData: this.weatherService.getResumedData()
-    }).subscribe(({sensorReading, resumedData}) => {
+    this.weatherService.getWeatherInfo(this.currentPage, this.pageSize)
+    .subscribe((sensorReading) => {
       this.results = sensorReading;
       this.dataSource.data = this.results!.results;
       this.recordCount = this.results!.recordCount;
 
-      this.resumedData = resumedData;
       this.isLoading = false;
     });
+  }
+
+  private getResumeInformation(): void {
+    this.isLoadingResume = true;
+    this.weatherService.getResumedData().subscribe({
+      next: resumedData => {
+        this.resumedData = resumedData;
+        this.isLoadingResume = false;
+      }
+    })
   }
 
   public chengePage(event: PageEvent): void {
